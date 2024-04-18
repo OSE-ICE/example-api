@@ -69,7 +69,22 @@ api.get("/api/expense/:id", (req, res) => {
 	});
 });
 
-
+api.delete("/api/expense/:id", (req, res) => {
+	const expenseId = parseInt(req.params.id, 10);
+	const expense = expenses.find((e) => e.id === expenseId);
+	if (expense) {
+		expenses = expenses.filter((e) => e.id !== expenseId);
+		res.json({
+			success: true,
+			deletedExpense: expense,
+		});
+	} else {
+		res.json({
+			success: false,
+			error: `Could not find expense with id=${expenseId}`,
+		});
+	}
+});
 
 api.delete("/api/delete-expense/:id", (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
